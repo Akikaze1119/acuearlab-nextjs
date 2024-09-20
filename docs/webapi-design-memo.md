@@ -14,28 +14,30 @@ Description: After all questions are answered,
 
 ```
 {
-"records": [
-  {
-    quizId: "string",
-    correct: true,
-  },
+  user_id: string,
+  "records": [
     {
-    quizId: "string",
-    correct: true,
-  },
-    {
-    quizId: "string",
-    correct: true,
-  },
-    {
-    quizId: "string",
-    correct: true,
-  },
-    {
-    quizId: "string",
-    correct: true,
-  },
-  ]
+      quizId: "string",
+      correct: true,
+    },
+      {
+      quizId: "string",
+      correct: true,
+    },
+      {
+      quizId: "string",
+      correct: true,
+    },
+      {
+      quizId: "string",
+      correct: true,
+    },
+      {
+      quizId: "string",
+      correct: true,
+    },
+  ],
+  created_at: Date,
 }
 ```
 
