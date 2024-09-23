@@ -2,35 +2,43 @@
 import React, { useState } from 'react';
 import { Button, Progress } from 'antd';
 import { PlayCircleFilled } from '@ant-design/icons';
-import { Quiz, Quizzes } from '@/lib/definitions';
+import { TQuiz } from '@/lib/definitions';
 import { speakText } from '@/lib/speakText';
 import WordButtons from './WordButtons';
 import { cn } from '@/lib/utils';
+import { TResult } from '@/lib/definitions';
 
 interface GameContentProps {
-  quizzes: Quizzes;
+  quizzes: TQuiz[];
   setShowResult: (value: boolean) => void;
+  setResults: (value: TResult[] | ((prev: TResult[]) => TResult[])) => void;
 }
 
-const GameContent = ({ quizzes, setShowResult }: GameContentProps) => {
+const GameContent = ({ quizzes, setShowResult, setResults }: GameContentProps) => {
   const [current, setCurrent] = useState(0);
   const [answer, setAnswer] = useState<string>(getRandomWord(quizzes[0]));
   const [message, setMessage] = useState<string>('');
   const [isAnswered, setIsAnswered] = useState(false);
   const questionCount = quizzes.length;
-  console.log('answer', answer);
 
-  function getRandomWord(quiz: Quiz): string {
+  function getRandomWord(quiz: TQuiz): string {
     const randomIndex = Math.floor(Math.random() * 2);
     return randomIndex === 0 ? quiz.word1 : quiz.word2;
   }
 
   function selectAnswer(option: string): void {
     setIsAnswered(() => true);
+    const result: TResult = {
+      quiz_id: quizzes[current].quiz_id,
+      answer: answer,
+      isCorrect: option === answer,
+    };
     if (option === answer) {
       setMessage('Correct!');
+      setResults((prev) => [...prev, result]);
     } else {
       setMessage('Incorrect!');
+      setResults((prev) => [...prev, result]);
     }
   }
 

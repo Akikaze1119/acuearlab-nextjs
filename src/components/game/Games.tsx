@@ -3,20 +3,25 @@ import { useState } from 'react';
 import { Layout } from 'antd';
 import GameContent from '@/components/game/GameContent';
 import ResultContent from '@/components/game/ResultContent';
-import { Quizzes } from '@/lib/definitions';
+import { TQuiz, TResult } from '@/lib/definitions';
 
 interface IContentProps {
-  quizzes: Quizzes;
+  quizzes: TQuiz[];
 }
 
 const Games = ({ quizzes }: IContentProps) => {
   const [showResult, setShowResult] = useState(false);
+  const [results, setResults] = useState<TResult[]>([]);
 
   return (
-    <Layout>
-      {!showResult && <GameContent quizzes={quizzes} setShowResult={setShowResult} />}
-      {showResult && <ResultContent />}
-    </Layout>
+    <main>
+      <Layout>
+        {!showResult && (
+          <GameContent quizzes={quizzes} setShowResult={setShowResult} setResults={setResults} />
+        )}
+        {showResult && <ResultContent quizzes={quizzes} results={results} />}
+      </Layout>
+    </main>
   );
 };
 

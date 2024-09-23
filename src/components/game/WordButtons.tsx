@@ -1,5 +1,5 @@
 'use client';
-import { Quiz } from '@/lib/definitions';
+import { TQuiz } from '@/lib/definitions';
 import { CheckCircleFilled } from '@ant-design/icons';
 import { Button } from 'antd';
 import { useState } from 'react';
@@ -9,7 +9,7 @@ import RadioButton from './RadioButton';
 import { div } from 'framer-motion/client';
 
 interface WordButtonsProps {
-  currentQuiz: Quiz;
+  currentQuiz: TQuiz;
   isAnswered: boolean;
   onSelectAnswer: (option: string) => void;
 }

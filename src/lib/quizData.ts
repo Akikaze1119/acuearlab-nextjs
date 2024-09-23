@@ -1,8 +1,8 @@
 'use server';
 import { neon } from '@neondatabase/serverless';
-import { Quizzes } from './definitions';
+import { TQuiz } from './definitions';
 
-export async function fetchQuizzes(): Promise<Quizzes> {
+export async function fetchQuizzes(): Promise<TQuiz[]> {
   try {
     if (!process.env.DATABASE_URL) {
       throw new Error('DATABASE_URL is not defined');
