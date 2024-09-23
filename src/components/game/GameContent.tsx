@@ -1,25 +1,25 @@
 'use client';
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { Button, Progress } from 'antd';
 import { PlayCircleFilled } from '@ant-design/icons';
 import { TQuiz } from '@/lib/definitions';
 import { speakText } from '@/lib/speakText';
-import WordButtons from './WordButtons';
 import { cn } from '@/lib/utils';
 import { TResult } from '@/lib/definitions';
-
+import WordButtons from '@/components/game/WordButtons';
 interface GameContentProps {
   quizzes: TQuiz[];
-  setShowResult: (value: boolean) => void;
-  setResults: (value: TResult[] | ((prev: TResult[]) => TResult[])) => void;
 }
 
-const GameContent = ({ quizzes, setShowResult, setResults }: GameContentProps) => {
+const GameContent = ({ quizzes }: GameContentProps) => {
   const [current, setCurrent] = useState(0);
   const [answer, setAnswer] = useState<string>(getRandomWord(quizzes[0]));
   const [message, setMessage] = useState<string>('');
+  const [results, setResults] = useState<TResult[]>([]);
   const [isAnswered, setIsAnswered] = useState(false);
   const questionCount = quizzes.length;
+  const router = useRouter();
 
   function getRandomWord(quiz: TQuiz): string {
     const randomIndex = Math.floor(Math.random() * 2);
@@ -48,6 +48,15 @@ const GameContent = ({ quizzes, setShowResult, setResults }: GameContentProps) =
     setMessage('');
     setIsAnswered(false);
   }
+
+  const handleNavigateResult = () => {
+    const searchParams = new URLSearchParams({
+      quizzes: JSON.stringify(quizzes),
+      results: JSON.stringify(results),
+    });
+
+    router.push(`/result?${searchParams.toString()}`);
+  };
 
   return (
     <div className='w-full md:w-2/3 px-10 mt-10 flex flex-col items-center md:mx-auto'>
@@ -100,11 +109,7 @@ const GameContent = ({ quizzes, setShowResult, setResults }: GameContentProps) =
               )}
             >
               <p className='mb-4'>{message}</p>
-              <Button
-                className='px-12 py-6 text-xl'
-                type='primary'
-                onClick={() => setShowResult(true)}
-              >
+              <Button className='px-12 py-6 text-xl' type='primary' onClick={handleNavigateResult}>
                 View Result
               </Button>
             </div>

@@ -9,7 +9,7 @@ import {
 import Title from 'antd/es/typography/Title';
 import { TQuiz, TResult } from '@/lib/definitions';
 import { speakText } from '@/lib/speakText';
-import ResultButtons from '@/components/game/ResultButtons';
+import ResultButtons from '@/components/result/ResultButtons';
 
 type ResultContentProps = {
   quizzes: TQuiz[];
