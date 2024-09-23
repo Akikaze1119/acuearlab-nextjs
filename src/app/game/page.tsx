@@ -17,17 +17,7 @@ export default async function Game() {
   return (
     <div>
       <CustomHeader />
-      <ConfigProvider
-        theme={{
-          components: {
-            Layout: {
-              bodyBg: '#fff',
-            },
-          },
-        }}
-      >
-        <Games quizzes={quizzes} />
-      </ConfigProvider>
+      <Games quizzes={quizzes} />
     </div>
   );
 }
