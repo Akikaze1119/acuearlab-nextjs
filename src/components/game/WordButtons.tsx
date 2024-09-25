@@ -1,12 +1,9 @@
 'use client';
 import { TQuiz } from '@/lib/definitions';
-import { CheckCircleFilled } from '@ant-design/icons';
-import { Button } from 'antd';
 import { useState } from 'react';
 import type { RadioChangeEvent } from 'antd';
 import { Radio } from 'antd';
 import RadioButton from './RadioButton';
-import { div } from 'framer-motion/client';
 
 interface WordButtonsProps {
   currentQuiz: TQuiz;
@@ -21,7 +18,6 @@ const WordButtons = ({ currentQuiz, isAnswered, onSelectAnswer }: WordButtonsPro
     const selectedValue = e.target.value;
     setValue(selectedValue);
     onSelectAnswer(selectedValue);
-    console.log('selectedValue', selectedValue);
   };
 
   return (

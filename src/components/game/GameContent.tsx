@@ -1,66 +1,85 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button, Progress } from 'antd';
 import { PlayCircleFilled } from '@ant-design/icons';
+import { useQuizContext } from '@/context/QuizContext';
 import { TQuiz } from '@/lib/definitions';
 import { speakText } from '@/lib/speakText';
 import { cn } from '@/lib/utils';
-import { TResult } from '@/lib/definitions';
 import WordButtons from '@/components/game/WordButtons';
+import { createRecord } from '@/actions/quizResult';
 interface GameContentProps {
   quizzes: TQuiz[];
 }
 
 const GameContent = ({ quizzes }: GameContentProps) => {
-  const [current, setCurrent] = useState(0);
-  const [answer, setAnswer] = useState<string>(getRandomWord(quizzes[0]));
-  const [message, setMessage] = useState<string>('');
-  const [results, setResults] = useState<TResult[]>([]);
-  const [isAnswered, setIsAnswered] = useState(false);
-  const questionCount = quizzes.length;
   const router = useRouter();
 
+  const { currentQuizIndex, results, setQuizzes, setResults, incrementQuizIndex } =
+    useQuizContext();
+
+  useEffect(() => {
+    setQuizzes(quizzes);
+  }, [quizzes, setQuizzes]);
+
+  const [answer, setAnswer] = useState<string>(getRandomWord(quizzes[0]));
+  const [message, setMessage] = useState<string>('');
+  const [isAnswered, setIsAnswered] = useState(false);
+  const questionCount = quizzes.length;
+
+  // choose a correct answer randomly
   function getRandomWord(quiz: TQuiz): string {
     const randomIndex = Math.floor(Math.random() * 2);
     return randomIndex === 0 ? quiz.word1 : quiz.word2;
   }
 
-  function selectAnswer(option: string): void {
+  function handleSelectAnswer(option: string): void {
     setIsAnswered(() => true);
-    const result: TResult = {
-      quiz_id: quizzes[current].quiz_id,
-      answer: answer,
-      isCorrect: option === answer,
+    const isCorrect = option === answer;
+    const result = {
+      quiz_id: quizzes[currentQuizIndex].quiz_id,
+      answer: option,
+      isCorrect,
     };
-    if (option === answer) {
+
+    if (isCorrect) {
       setMessage('Correct!');
-      setResults((prev) => [...prev, result]);
     } else {
       setMessage('Incorrect!');
-      setResults((prev) => [...prev, result]);
     }
+
+    setResults([...results, result]);
   }
 
   function next() {
-    setCurrent(current + 1);
-    setAnswer(getRandomWord(quizzes[current + 1]));
+    incrementQuizIndex();
+    setAnswer(getRandomWord(quizzes[currentQuizIndex + 1]));
     setMessage('');
     setIsAnswered(false);
   }
 
-  const handleNavigateResult = () => {
-    const searchParams = new URLSearchParams({
-      quizzes: JSON.stringify(quizzes),
-      results: JSON.stringify(results),
+  async function handleViewResult() {
+    if (!results) return;
+    const quiz_data = quizzes.map((quiz) => {
+      const result = results.find((r) => r.quiz_id === quiz.quiz_id);
+      return {
+        quiz_id: quiz.quiz_id,
+        isCorrect: result?.isCorrect ?? false,
+      };
     });
 
-    router.push(`/result?${searchParams.toString()}`);
-  };
+    await createRecord(quiz_data);
+    router.push('/result');
+  }
 
   return (
     <div className='w-full md:w-2/3 px-10 mt-10 flex flex-col items-center md:mx-auto'>
-      <Progress percent={Number(`${(100 / 5) * current}`)} showInfo={false} className={'mb-20'} />
+      <Progress
+        percent={Number(`${(100 / 5) * currentQuizIndex}`)}
+        showInfo={false}
+        className={'mb-20'}
+      />
       <Button
         size={'large'}
         type={'primary'}
@@ -69,12 +88,12 @@ const GameContent = ({ quizzes }: GameContentProps) => {
       >
         <PlayCircleFilled style={{ fontSize: '2rem' }} />
       </Button>
-      {current < questionCount - 1 && (
+      {currentQuizIndex < questionCount - 1 && (
         <>
           <WordButtons
-            currentQuiz={quizzes[current]}
+            currentQuiz={quizzes[currentQuizIndex]}
             isAnswered={isAnswered}
-            onSelectAnswer={selectAnswer}
+            onSelectAnswer={handleSelectAnswer}
           />
           {isAnswered && (
             <>
@@ -93,12 +112,12 @@ const GameContent = ({ quizzes }: GameContentProps) => {
           )}
         </>
       )}
-      {current === questionCount - 1 && (
+      {currentQuizIndex === questionCount - 1 && (
         <>
           <WordButtons
-            currentQuiz={quizzes[current]}
+            currentQuiz={quizzes[currentQuizIndex]}
             isAnswered={isAnswered}
-            onSelectAnswer={selectAnswer}
+            onSelectAnswer={handleSelectAnswer}
           />
 
           {isAnswered && (
@@ -109,7 +128,7 @@ const GameContent = ({ quizzes }: GameContentProps) => {
               )}
             >
               <p className='mb-4'>{message}</p>
-              <Button className='px-12 py-6 text-xl' type='primary' onClick={handleNavigateResult}>
+              <Button className='px-12 py-6 text-xl' type='primary' onClick={handleViewResult}>
                 View Result
               </Button>
             </div>

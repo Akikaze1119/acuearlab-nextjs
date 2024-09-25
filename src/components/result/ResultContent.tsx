@@ -1,3 +1,4 @@
+'use client';
 import { Table } from 'antd';
 import {
   CheckOutlined,
@@ -7,14 +8,9 @@ import {
   SmileOutlined,
 } from '@ant-design/icons';
 import Title from 'antd/es/typography/Title';
-import { TQuiz, TResult } from '@/lib/definitions';
+import { useQuizContext } from '@/context/QuizContext';
 import { speakText } from '@/lib/speakText';
 import ResultButtons from '@/components/result/ResultButtons';
-
-type ResultContentProps = {
-  quizzes: TQuiz[];
-  results: TResult[];
-};
 
 const { Column, ColumnGroup } = Table;
 
@@ -26,7 +22,8 @@ interface DataType {
   isCorrect: boolean;
 }
 
-const ResultContent = ({ quizzes, results }: ResultContentProps) => {
+const ResultContent = () => {
+  const { results, quizzes } = useQuizContext();
   const data: DataType[] = results.map((result, index) => {
     const quiz = quizzes[index];
     return {
