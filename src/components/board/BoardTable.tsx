@@ -24,6 +24,7 @@ interface DataType {
 const BoardTable = ({ records }: BoardTableProps) => {
   const dataSources: DataType[] = records.map((record, index) => ({
     key: index + 1,
+    name: `Record${record.id}`,
     score: record.result.filter((item) => item.isCorrect === true).length,
     created_at: record.created_at,
   }));
@@ -31,6 +32,7 @@ const BoardTable = ({ records }: BoardTableProps) => {
   const expandDataSources: Record<number, ExpandedDataType[]> = {};
   records.forEach((record, index) => {
     expandDataSources[index + 1] = record.result.map((item: ExpandedDataType) => ({
+      key: item.quiz_id,
       quiz_id: item.quiz_id,
       word1: item.word1,
       word2: item.word2,
@@ -91,7 +93,7 @@ const BoardTable = ({ records }: BoardTableProps) => {
   ];
 
   const columns: TableColumnsType<DataType> = [
-    // { title: 'Record', dataIndex: 'key', key: 'key', width: '10%' },
+    { title: 'Record', dataIndex: 'name', key: 'name', sorter: (a, b) => a.score - b.score },
     { title: 'Play Date', dataIndex: 'created_at', key: 'created_at' },
     { title: 'Score', dataIndex: 'score', key: 'score', sorter: (a, b) => a.score - b.score },
   ];
