@@ -3,11 +3,9 @@ import { CustomHeader } from '@/components/ui/Header';
 import { TQuiz } from '@/lib/definitions';
 import GameContent from '@/components/game/GameContent';
 import { fetchQuizzes } from '@/lib/quizData';
-import { auth, currentUser } from '@clerk/nextjs/server';
 
 export default async function Game() {
   const quizzes: TQuiz[] = await fetchQuizzes();
-  const { userId } = auth();
 
   return (
     <div>

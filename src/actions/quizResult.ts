@@ -1,13 +1,9 @@
 'use server';
 import { auth } from '@clerk/nextjs/server';
 import { neon } from '@neondatabase/serverless';
+import { TQuiz_data } from '@/lib/definitions';
 
-interface Quiz_data {
-  quiz_id: number;
-  isCorrect: boolean;
-}
-
-export async function createRecord(quiz_data: Quiz_data[]) {
+export async function createRecord(quiz_data: TQuiz_data[]) {
   const { userId } = auth();
   const date = new Date().toISOString();
   try {
