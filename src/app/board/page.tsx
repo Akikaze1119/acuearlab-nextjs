@@ -6,7 +6,7 @@ export default async function Game() {
   return (
     <div>
       <CustomHeader />
-      <main>
+      <main className='mb-10'>
         <Layout>
           <BoardContent />
         </Layout>

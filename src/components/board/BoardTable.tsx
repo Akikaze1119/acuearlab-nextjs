@@ -111,7 +111,7 @@ const BoardTable = ({ records }: BoardTableProps) => {
       columns={columns}
       expandable={{ expandedRowRender, defaultExpandedRowKeys: [1] }}
       dataSource={dataSources}
-      pagination={false}
+      pagination={{ position: ['topRight'] }}
     />
   );
 };
