@@ -1,10 +1,12 @@
-import { auth } from '@clerk/nextjs/server';
-import { fetchRecords } from '@/lib/recordData';
-import AuthError from '@/components/ui/AuthError';
-import BarChart from '@/components/board/BarChart';
-import BoardTable from '@/components/board/BoardTable';
 import Title from 'antd/es/typography/Title';
 import { Tabs } from 'antd';
+import { auth } from '@clerk/nextjs/server';
+import { fetchRecords, fetchWeakRecords } from '@/lib/recordData';
+import AuthError from '@/components/ui/AuthError';
+import LineChart from '@/components/board/LineChart';
+import BoardTable from '@/components/board/BoardTable';
+import BarChart from '@/components/board/BarChart';
+import WeakWordsTable from '@/components/board/WeakWordsTable';
 
 const BoardContent = async () => {
   const { userId } = auth();
@@ -12,11 +14,12 @@ const BoardContent = async () => {
     return <AuthError />;
   }
   const records = await fetchRecords(userId);
+  const weakRecords = await fetchWeakRecords(userId);
 
   const TabItem1 = (
     <>
       <div className='mb-16'>
-        <BarChart records={records} />
+        <LineChart records={records} />
       </div>
       <BoardTable records={records} />
     </>
@@ -24,7 +27,10 @@ const BoardContent = async () => {
 
   const TabItem2 = (
     <div>
-      <p>Tab 2 Content</p>
+      <div className='mb-16'>
+        <BarChart weakRecords={weakRecords} />
+      </div>
+      <WeakWordsTable weakRecords={weakRecords} />
     </div>
   );
 
@@ -42,7 +48,7 @@ const BoardContent = async () => {
   ];
 
   return (
-    <div className='mx-4 mt-5'>
+    <div className='mx-10 mt-5'>
       <Title style={{ marginBottom: 16, color: '#2cb0c7', textAlign: 'center' }}>Records</Title>
       <Tabs defaultActiveKey='1' centered items={TabItems} size='large' />
     </div>

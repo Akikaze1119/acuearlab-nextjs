@@ -1,6 +1,6 @@
 'use server';
 import { neon } from '@neondatabase/serverless';
-import { TBoardData, TQuiz_data } from '@/lib/definitions';
+import { TBoardData, TQuiz_data, TWeakDataWithWords } from '@/lib/definitions';
 import { fetchQuizzesById } from '@/lib/quizData';
 import { formatDate } from './dateFormat';
 
@@ -46,5 +46,43 @@ export async function fetchRecords(userId: string): Promise<TBoardData[]> {
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch records.');
+  }
+}
+
+export async function fetchWeakRecords(userId: string): Promise<TWeakDataWithWords[]> {
+  try {
+    if (!process.env.DATABASE_URL) {
+      throw new Error('DATABASE_URL is not defined');
+    }
+    const sql = neon(process.env.DATABASE_URL);
+    const data = await sql`
+    SELECT weak_id,quiz_id, times_answered, times_incorrect
+    FROM weak_quizzes
+    WHERE user_id=${userId}
+    ORDER BY times_incorrect DESC
+    LIMIT 10;
+  `;
+
+    if (data.length === 0) {
+      return [];
+    }
+
+    const quizzes = data.map(async (quiz, quizIndex) => {
+      const quiz_data = await fetchQuizzesById([quiz.quiz_id]);
+      return {
+        id: quizIndex + 1,
+        weak_id: quiz.quiz_id,
+        word1: quiz_data[0].word1,
+        word2: quiz_data[0].word2,
+        times_answered: quiz.times_answered,
+        times_incorrect: quiz.times_incorrect,
+      };
+    });
+
+    const resolvedQuizzes = await Promise.all(quizzes);
+    return resolvedQuizzes;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch weak records.');
   }
 }

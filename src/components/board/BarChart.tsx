@@ -5,21 +5,21 @@ import {
   CategoryScale,
   LinearScale,
   PointElement,
-  LineElement,
+  BarElement,
   Title,
   Tooltip,
   Legend,
   Filler,
 } from 'chart.js';
-import { Line } from 'react-chartjs-2';
-import { TBoardData } from '@/lib/definitions';
+import { Bar } from 'react-chartjs-2';
+import { TWeakDataWithWords } from '@/lib/definitions';
 import { Layout } from 'antd';
 
 ChartJS.register(
   CategoryScale,
-  LineElement,
   LinearScale,
   PointElement,
+  BarElement,
   Title,
   Tooltip,
   Legend,
@@ -27,56 +27,47 @@ ChartJS.register(
 );
 
 interface BarChartProps {
-  records: TBoardData[];
+  weakRecords: TWeakDataWithWords[];
 }
 
-const BarChart = ({ records }: BarChartProps) => {
-  // X - axis lable with
-  const labels = records.map((record) => `Record${record.id}`);
-
-  // Score Data
-  const datasets = records.map(
-    (record) => record.result.filter((item) => item.isCorrect === true).length
+const BarChart = ({ weakRecords }: BarChartProps) => {
+  const labels = weakRecords.map(
+    (record: TWeakDataWithWords) => `${record.word1} - ${record.word2}`
   );
-
+  const datasets = weakRecords.map((record: TWeakDataWithWords) => record.times_incorrect);
   const data = {
     labels: labels,
     datasets: [
       {
-        label: 'Score',
+        label: 'Weak words',
         data: datasets,
-        fill: false,
         borderColor: '#31C3DD',
         backgroundColor: '#31C3DD',
-        tension: 0.1,
       },
     ],
   };
-
-  // To make configuration
   const options = {
     scales: {
       y: {
         title: {
           display: true,
-          text: 'Score',
+          text: 'Times Incorrect',
         },
         display: true,
-        min: 0,
-        max: 5,
-        ticks: {
-          stepSize: 1,
-        },
+        beginAtZero: true,
       },
       x: {
+        title: {
+          display: true,
+          text: 'Weak Words',
+        },
         display: true,
       },
     },
   };
-
   return (
     <Layout>
-      <Line data={data} options={options} />
+      <Bar data={data} options={options} />
     </Layout>
   );
 };

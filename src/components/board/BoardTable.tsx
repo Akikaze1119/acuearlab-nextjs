@@ -2,7 +2,7 @@
 import { TBoardData } from '@/lib/definitions';
 import { speakText } from '@/lib/speakText';
 import { CheckOutlined, CloseOutlined, PlayCircleFilled } from '@ant-design/icons';
-import { Divider, Flex, Space, Table, TableColumnsType } from 'antd';
+import { Flex, Table, TableColumnsType } from 'antd';
 
 interface BoardTableProps {
   records: TBoardData[];
