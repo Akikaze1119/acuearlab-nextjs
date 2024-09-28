@@ -49,7 +49,7 @@ const ResultContent = () => {
           <span>{goodResult ? <SmileOutlined /> : <FrownOutlined />}</span>
         </Title>
       </div>
-      <Table<DataType> dataSource={data} pagination={false}>
+      <Table<DataType> dataSource={data} pagination={false} scroll={{ x: 'max-content' }}>
         <Column title='No' dataIndex='key' key='key' align='center' />
         <Column
           title='Result'
