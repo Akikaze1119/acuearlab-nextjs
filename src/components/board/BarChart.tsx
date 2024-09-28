@@ -47,6 +47,7 @@ const BarChart = ({ weakRecords }: BarChartProps) => {
     ],
   };
   const options = {
+    maintainAspectRatio: false, // To make the chart responsive
     scales: {
       y: {
         title: {
@@ -67,7 +68,9 @@ const BarChart = ({ weakRecords }: BarChartProps) => {
   };
   return (
     <Layout>
-      <Bar data={data} options={options} />
+      <article className='min-h-96'>
+        <Bar data={data} options={options} />
+      </article>
     </Layout>
   );
 };

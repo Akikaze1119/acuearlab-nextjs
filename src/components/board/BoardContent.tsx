@@ -17,16 +17,16 @@ const BoardContent = async () => {
   const weakRecords = await fetchWeakRecords(userId);
 
   const TabItem1 = (
-    <>
+    <div className='h-full'>
       <div className='mb-16'>
         <LineChart records={records} />
       </div>
       <BoardTable records={records} />
-    </>
+    </div>
   );
 
   const TabItem2 = (
-    <div>
+    <div className='h-full'>
       <div className='mb-16'>
         <BarChart weakRecords={weakRecords} />
       </div>
@@ -48,7 +48,7 @@ const BoardContent = async () => {
   ];
 
   return (
-    <div className='mx-10 mt-5'>
+    <div className='px-1 mx-0 md:mx-10 mt-5'>
       <Title style={{ marginBottom: 16, color: '#2cb0c7', textAlign: 'center' }}>Records</Title>
       <Tabs defaultActiveKey='1' centered items={TabItems} size='large' />
     </div>
