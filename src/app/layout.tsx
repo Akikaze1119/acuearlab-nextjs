@@ -1,7 +1,9 @@
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import './globals.css';
-import { ClerkProvider, SignInButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
+import { ClerkProvider } from '@clerk/nextjs';
+import { ConfigProvider } from 'antd';
+import { QuizProvider } from '@/context/QuizContext';
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -27,15 +29,22 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang='en'>
-        <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-          <SignedOut>
-            <SignInButton />
-          </SignedOut>
-          <SignedIn>
-            <UserButton />
-          </SignedIn>
-          {children}
-        </body>
+        <ConfigProvider
+          theme={{
+            token: {
+              colorPrimary: '#2cb0c7',
+            },
+            components: {
+              Layout: {
+                bodyBg: '#fff',
+              },
+            },
+          }}
+        >
+          <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+            <QuizProvider>{children}</QuizProvider>
+          </body>
+        </ConfigProvider>
       </html>
     </ClerkProvider>
   );
