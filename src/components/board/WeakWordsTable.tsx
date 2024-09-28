@@ -11,24 +11,32 @@ interface WeakWordsTableProps {
 
 const WeakWordsTable = ({ weakRecords }: WeakWordsTableProps) => {
   const weakDataTable: TWeakTableData[] = weakRecords.map((record) => ({
-    key: record.id,
+    key: Number(record.id),
     weak_id: record.weak_id,
     word1: record.word1,
     word2: record.word2,
     times_answered: record.times_answered,
     times_incorrect: record.times_incorrect,
-    incorrect_rate: `${(record.times_incorrect / record.times_answered) * 100}%`,
+    incorrect_rate: Math.round((record.times_incorrect / record.times_answered) * 100),
   }));
 
   return (
     <Table dataSource={weakDataTable} pagination={false} scroll={{ x: 'max-content' }}>
-      <Column title='No' dataIndex='key' key='key' align='center' width={'5%'} />
+      <Column
+        title='No'
+        dataIndex='key'
+        key='key'
+        align='center'
+        width={'5%'}
+        sorter={(a: TWeakTableData, b: TWeakTableData) => a.key - b.key}
+      />
       <Column
         title='Times Incorrect'
         dataIndex='times_incorrect'
         key='times_incorrect'
         align='center'
         width={'10%'}
+        sorter={(a: TWeakTableData, b: TWeakTableData) => a.times_incorrect - b.times_incorrect}
       />
       <Column
         title='Times Answered'
@@ -37,6 +45,17 @@ const WeakWordsTable = ({ weakRecords }: WeakWordsTableProps) => {
         align='center'
         width={'10%'}
         responsive={['md', 'lg', 'xl', 'xxl']}
+        sorter={(a: TWeakTableData, b: TWeakTableData) => a.times_answered - b.times_answered}
+      />
+      <Column
+        title='Incorrect Rate'
+        dataIndex='incorrect_rate'
+        key='incorrect_rate'
+        align='center'
+        width={'10%'}
+        responsive={['md', 'lg', 'xl', 'xxl']}
+        render={(value: number) => `${value}%`}
+        sorter={(a: TWeakTableData, b: TWeakTableData) => a.incorrect_rate - b.incorrect_rate}
       />
       <Column
         title='Word1'

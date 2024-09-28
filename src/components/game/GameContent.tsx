@@ -75,9 +75,9 @@ const GameContent = ({ quizzes }: GameContentProps) => {
       await createRecord(quiz_data);
     } catch (e) {
       console.log(e);
+      setIsLoading(false);
     } finally {
       router.push('/result');
-      setIsLoading(false);
     }
   }
 

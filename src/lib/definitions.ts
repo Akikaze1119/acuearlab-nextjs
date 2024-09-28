@@ -53,11 +53,11 @@ export type TWeakDataWithWords = {
 };
 
 export type TWeakTableData = {
-  key: React.Key;
+  key: number;
   weak_id: number;
   word1: string;
   word2: string;
   times_answered: number;
   times_incorrect: number;
-  incorrect_rate: string;
+  incorrect_rate: number;
 };

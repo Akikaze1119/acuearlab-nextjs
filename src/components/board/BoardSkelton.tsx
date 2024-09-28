@@ -1,14 +1,14 @@
-import { Skeleton } from 'antd';
+'use client';
+import { Layout, Skeleton } from 'antd';
 
 const BoardSkelton = () => {
+  const { Content } = Layout;
   return (
-    <div className='mt-10 flex justify-center mx-auto'>
-      <Skeleton active={true}>
-        <article className='min-h-96 min-w-max'>
-          <div className='h-96'></div>
-        </article>
-      </Skeleton>
-    </div>
+    <Layout>
+      <Content style={{ margin: '1.2rem auto' }}>
+        <Skeleton active={true}></Skeleton>
+      </Content>
+    </Layout>
   );
 };
 

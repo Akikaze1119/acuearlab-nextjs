@@ -23,16 +23,26 @@ export default function Home() {
           </p>
 
           <SignedOut>
-            <Button type='primary' size='large' className='text-xl p-6'>
+            <Button type='primary' size='large' style={{ fontSize: '1.25rem', padding: '1.5rem' }}>
               <SignInButton />
             </Button>
           </SignedOut>
           <SignedIn>
             <Flex gap='middle' justify='center'>
-              <Button type='primary' size='large' href='/game' className='text-xl p-6'>
+              <Button
+                type='primary'
+                size='large'
+                href='/game'
+                style={{ fontSize: '1.25rem', padding: '1.5rem' }}
+              >
                 Start Game
               </Button>
-              <Button type='default' size='large' href='/board' className='text-xl p-6'>
+              <Button
+                type='default'
+                size='large'
+                href='/board'
+                style={{ fontSize: '1.25rem', padding: '1.5rem' }}
+              >
                 View Records
               </Button>
             </Flex>
