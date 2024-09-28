@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Button, Progress } from 'antd';
+import { Button, Progress, Spin } from 'antd';
 import { PlayCircleFilled } from '@ant-design/icons';
 import { useQuizContext } from '@/context/QuizContext';
 import { TQuiz } from '@/lib/definitions';
@@ -27,6 +27,7 @@ const GameContent = ({ quizzes }: GameContentProps) => {
   const [message, setMessage] = useState<string>('');
   const [isAnswered, setIsAnswered] = useState(false);
   const questionCount = quizzes.length;
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   // choose a correct answer randomly
   function getRandomWord(quiz: TQuiz): string {
@@ -60,6 +61,7 @@ const GameContent = ({ quizzes }: GameContentProps) => {
   }
 
   async function handleViewResult() {
+    setIsLoading(true);
     if (!results) return;
     const quiz_data = quizzes.map((quiz) => {
       const result = results.find((r) => r.quiz_id === quiz.quiz_id);
@@ -69,21 +71,34 @@ const GameContent = ({ quizzes }: GameContentProps) => {
       };
     });
 
-    await createRecord(quiz_data);
-    router.push('/result');
+    try {
+      await createRecord(quiz_data);
+    } catch (e) {
+      console.log(e);
+      setIsLoading(false);
+    } finally {
+      router.push('/result');
+    }
   }
 
   return (
     <div className='w-full md:w-2/3 px-10 mt-10 flex flex-col items-center md:mx-auto'>
+      <Spin spinning={isLoading} fullscreen />
       <Progress
         percent={Number(`${(100 / 5) * currentQuizIndex}`)}
         showInfo={false}
-        className={'mb-20'}
+        style={{ marginBottom: '3rem' }}
       />
       <Button
         size={'large'}
         type={'primary'}
-        className='px-12 py-6 mb-12'
+        style={{
+          paddingLeft: '3rem',
+          paddingRight: '3rem',
+          paddingTop: '1.5rem',
+          paddingBottom: '1.5rem',
+          marginBottom: '3rem',
+        }}
         onClick={() => speakText(answer)}
       >
         <PlayCircleFilled style={{ fontSize: '2rem' }} />
@@ -104,7 +119,17 @@ const GameContent = ({ quizzes }: GameContentProps) => {
                 )}
               >
                 <p className='mb-4'>{message}</p>
-                <Button className='px-12 py-6 text-xl' type='primary' onClick={() => next()}>
+                <Button
+                  style={{
+                    paddingLeft: '3rem',
+                    paddingRight: '3rem',
+                    paddingTop: '1.5rem',
+                    paddingBottom: '1.5rem',
+                    fontSize: '1.25rem',
+                  }}
+                  type='primary'
+                  onClick={() => next()}
+                >
                   Next
                 </Button>
               </div>
@@ -128,7 +153,17 @@ const GameContent = ({ quizzes }: GameContentProps) => {
               )}
             >
               <p className='mb-4'>{message}</p>
-              <Button className='px-12 py-6 text-xl' type='primary' onClick={handleViewResult}>
+              <Button
+                style={{
+                  paddingLeft: '3rem',
+                  paddingRight: '3rem',
+                  paddingTop: '1.5rem',
+                  paddingBottom: '1.5rem',
+                  fontSize: '1.25rem',
+                }}
+                type='primary'
+                onClick={handleViewResult}
+              >
                 View Result
               </Button>
             </div>

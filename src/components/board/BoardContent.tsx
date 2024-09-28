@@ -54,7 +54,7 @@ const BoardContent = async () => {
   );
 
   return (
-    <div className='px-1 mx-0 md:mx-10 mt-5'>
+    <div className='px-1 mx-0 md:mx-auto mt-5 w-full max-w-5xl '>
       <Title style={{ marginBottom: 16, color: '#2cb0c7', textAlign: 'center' }}>Records</Title>
       <Tabs
         defaultActiveKey='1'
