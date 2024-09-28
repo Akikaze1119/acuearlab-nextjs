@@ -87,12 +87,18 @@ const GameContent = ({ quizzes }: GameContentProps) => {
       <Progress
         percent={Number(`${(100 / 5) * currentQuizIndex}`)}
         showInfo={false}
-        className={'mb-20'}
+        style={{ marginBottom: '3rem' }}
       />
       <Button
         size={'large'}
         type={'primary'}
-        className='px-12 py-6 mb-12'
+        style={{
+          paddingLeft: '3rem',
+          paddingRight: '3rem',
+          paddingTop: '1.5rem',
+          paddingBottom: '1.5rem',
+          marginBottom: '3rem',
+        }}
         onClick={() => speakText(answer)}
       >
         <PlayCircleFilled style={{ fontSize: '2rem' }} />
@@ -113,7 +119,17 @@ const GameContent = ({ quizzes }: GameContentProps) => {
                 )}
               >
                 <p className='mb-4'>{message}</p>
-                <Button className='px-12 py-6 text-xl' type='primary' onClick={() => next()}>
+                <Button
+                  style={{
+                    paddingLeft: '3rem',
+                    paddingRight: '3rem',
+                    paddingTop: '1.5rem',
+                    paddingBottom: '1.5rem',
+                    fontSize: '1.25rem',
+                  }}
+                  type='primary'
+                  onClick={() => next()}
+                >
                   Next
                 </Button>
               </div>
@@ -137,7 +153,17 @@ const GameContent = ({ quizzes }: GameContentProps) => {
               )}
             >
               <p className='mb-4'>{message}</p>
-              <Button className='px-12 py-6 text-xl' type='primary' onClick={handleViewResult}>
+              <Button
+                style={{
+                  paddingLeft: '3rem',
+                  paddingRight: '3rem',
+                  paddingTop: '1.5rem',
+                  paddingBottom: '1.5rem',
+                  fontSize: '1.25rem',
+                }}
+                type='primary'
+                onClick={handleViewResult}
+              >
                 View Result
               </Button>
             </div>

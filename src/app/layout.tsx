@@ -4,6 +4,7 @@ import './globals.css';
 import { ClerkProvider } from '@clerk/nextjs';
 import { ConfigProvider } from 'antd';
 import { QuizProvider } from '@/context/QuizContext';
+import { AntdRegistry } from '@ant-design/nextjs-registry';
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -42,7 +43,9 @@ export default function RootLayout({
           }}
         >
           <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-            <QuizProvider>{children}</QuizProvider>
+            <AntdRegistry>
+              <QuizProvider>{children}</QuizProvider>
+            </AntdRegistry>
           </body>
         </ConfigProvider>
       </html>

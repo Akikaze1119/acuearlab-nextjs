@@ -11,8 +11,18 @@ const RadioButton = ({ word, isAnswered }: RadioButtonProps) => {
     <Radio
       value={word}
       disabled={isAnswered}
+      style={{
+        width: '100%',
+        maxWidth: '16rem',
+        paddingLeft: '1.5rem',
+        paddingRight: '1.5rem',
+        paddingTop: '1.5rem',
+        paddingBottom: '1.5rem',
+        fontSize: '1.25rem',
+        lineHeight: '1.75rem',
+      }}
       className={cn(
-        'bg-sky-100 text-sky-900 w-full max-w-64 px-6 py-6 text-xl rounded-md gap-2',
+        'bg-sky-100 text-sky-900 rounded-md gap-2',
         isAnswered && 'cursor-not-allowed bg-slate-100'
       )}
     >
