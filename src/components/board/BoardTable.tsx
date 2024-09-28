@@ -107,12 +107,15 @@ const BoardTable = ({ records }: BoardTableProps) => {
   );
 
   return (
-    <Table<DataType>
-      columns={columns}
-      expandable={{ expandedRowRender, defaultExpandedRowKeys: [1] }}
-      dataSource={dataSources}
-      pagination={{ position: ['topRight'] }}
-    />
+    <div className='h-full'>
+      <Table<DataType>
+        columns={columns}
+        expandable={{ expandedRowRender, defaultExpandedRowKeys: [1] }}
+        dataSource={dataSources}
+        pagination={{ position: ['topRight'] }}
+        scroll={{ x: 'max-content' }}
+      />
+    </div>
   );
 };
 

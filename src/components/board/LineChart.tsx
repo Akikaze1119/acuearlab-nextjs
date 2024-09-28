@@ -55,6 +55,7 @@ const LineChart = ({ records }: LineChartProps) => {
 
   // To make configuration
   const options = {
+    maintainAspectRatio: false, // To make the chart responsive
     scales: {
       y: {
         title: {
@@ -76,7 +77,9 @@ const LineChart = ({ records }: LineChartProps) => {
 
   return (
     <Layout>
-      <Line data={data} options={options} />
+      <article className='min-h-72'>
+        <Line data={data} options={options} />
+      </article>
     </Layout>
   );
 };

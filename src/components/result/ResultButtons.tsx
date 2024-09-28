@@ -11,11 +11,11 @@ const ResultButtons = () => {
 
   return (
     <div className='flex justify-center gap-4 mt-6'>
-      <Button type='primary' onClick={restartQuiz}>
+      <Button type='primary' onClick={restartQuiz} size={'large'} style={{ fontSize: '1.1rem' }}>
         New Game
         <PlayCircleOutlined />
       </Button>
-      <Button onClick={() => router.push('/board')}>
+      <Button onClick={() => router.push('/board')} size={'large'} style={{ fontSize: '1.1rem' }}>
         Record
         <HistoryOutlined />
       </Button>

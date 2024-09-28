@@ -12,7 +12,7 @@ interface WeakWordsTableProps {
 
 const WeakWordsTable = ({ weakRecords }: WeakWordsTableProps) => {
   const weakDataTable: TWeakTableData[] = weakRecords.map((record) => ({
-    id: record.id,
+    key: record.id,
     weak_id: record.weak_id,
     word1: record.word1,
     word2: record.word2,
@@ -22,8 +22,8 @@ const WeakWordsTable = ({ weakRecords }: WeakWordsTableProps) => {
   }));
 
   return (
-    <Table dataSource={weakDataTable}>
-      <Column title='No' dataIndex='id' key='id' align='center' width={'5%'} />
+    <Table dataSource={weakDataTable} pagination={false} scroll={{ x: 'max-content' }}>
+      <Column title='No' dataIndex='key' key='key' align='center' width={'5%'} />
       <Column
         title='Times Incorrect'
         dataIndex='times_incorrect'
@@ -37,6 +37,7 @@ const WeakWordsTable = ({ weakRecords }: WeakWordsTableProps) => {
         key='times_answered'
         align='center'
         width={'10%'}
+        responsive={['md', 'lg', 'xl', 'xxl']}
       />
       <Column
         title='Incorrect Rate'
@@ -44,6 +45,7 @@ const WeakWordsTable = ({ weakRecords }: WeakWordsTableProps) => {
         key='incorrect_rate'
         align='center'
         width={'10%'}
+        responsive={['md', 'lg', 'xl', 'xxl']}
       />
       <ColumnGroup title='Word1'>
         <Column title='Word' dataIndex='word1' key='word1' align='center' />
