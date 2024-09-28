@@ -10,6 +10,14 @@ export type TResult = {
   isCorrect: boolean;
 };
 
+export type TResultTableData = {
+  key: React.Key;
+  answer: string;
+  word1: string;
+  word2: string;
+  isCorrect: boolean;
+};
+
 export type TQuiz_data = {
   quiz_id: number;
   isCorrect: boolean;
