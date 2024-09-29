@@ -1,8 +1,11 @@
 'use client';
 import { useEffect, useState, useMemo, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
+import { useUser } from '@clerk/nextjs';
+
 import { Button, Progress, Spin } from 'antd';
 import { PlayCircleFilled } from '@ant-design/icons';
+
 import { useQuizContext } from '@/context/QuizContext';
 import { TQuiz } from '@/lib/definitions';
 import { speakText } from '@/lib/speakText';
@@ -15,6 +18,7 @@ interface GameContentProps {
 }
 
 const GameContent = ({ quizzes }: GameContentProps) => {
+  const { user } = useUser();
   const router = useRouter();
   const [message, setMessage] = useState<string>('');
   const [isAnswered, setIsAnswered] = useState(false);
@@ -84,7 +88,9 @@ const GameContent = ({ quizzes }: GameContentProps) => {
     });
 
     try {
-      await createRecord(quiz_data);
+      if (user) {
+        await createRecord(quiz_data);
+      }
     } catch (e) {
       console.log(e);
       setIsLoading(false);

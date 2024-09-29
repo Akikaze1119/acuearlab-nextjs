@@ -1,5 +1,4 @@
-import { Button, Flex } from 'antd';
-import { SignInButton, SignedIn, SignedOut } from '@clerk/nextjs';
+import ContentButtons from '@/components/index/ContentButtons';
 import { FlipWords } from '@/components/ui/flip-words';
 import { CustomHeader } from '@/components/ui/Header';
 
@@ -15,44 +14,13 @@ export default function Home() {
           </h1>
 
           <div className='text-8xl mx-auto mb-12 font-normal text-neutral-600 dark:text-neutral-400'>
-            <FlipWords words={words} />
-            <span>aw</span>
+            <FlipWords words={words} className='w-10 font-semibold' />
+            <span>aw?</span>
           </div>
           <p className='text-lg md:text-xl mb-10'>
             Let's test distinguish sounds between similar sounds accurately!
           </p>
-
-          <SignedOut>
-            <SignInButton>
-              <Button
-                type='primary'
-                size='large'
-                style={{ fontSize: '1.25rem', padding: '1.5rem' }}
-              >
-                Sign in
-              </Button>
-            </SignInButton>
-          </SignedOut>
-          <SignedIn>
-            <Flex gap='middle' justify='center'>
-              <Button
-                type='primary'
-                size='large'
-                href='/game'
-                style={{ fontSize: '1.25rem', padding: '1.5rem' }}
-              >
-                Start Game
-              </Button>
-              <Button
-                type='default'
-                size='large'
-                href='/board'
-                style={{ fontSize: '1.25rem', padding: '1.5rem' }}
-              >
-                View Records
-              </Button>
-            </Flex>
-          </SignedIn>
+          <ContentButtons />
         </div>
       </main>
     </div>
