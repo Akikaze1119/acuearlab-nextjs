@@ -2,10 +2,11 @@
 import { auth } from '@clerk/nextjs/server';
 import { neon } from '@neondatabase/serverless';
 import { TQuiz_data } from '@/lib/definitions';
+import { getDate } from '@/lib/getDate';
 
 export async function createRecord(quiz_data: TQuiz_data[]) {
   const { userId } = auth();
-  const date = new Date().toISOString();
+  const date = getDate();
   try {
     if (!process.env.DATABASE_URL) {
       throw new Error('DATABASE_URL is not defined');

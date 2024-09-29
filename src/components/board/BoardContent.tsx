@@ -1,7 +1,7 @@
 import Title from 'antd/es/typography/Title';
 import { Button, Tabs } from 'antd';
 import { auth } from '@clerk/nextjs/server';
-import { fetchRecords, fetchWeakRecords } from '@/lib/recordData';
+import { fetchRecords, fetchWeakRecords } from '@/lib/getRecordData';
 import AuthError from '@/components/ui/AuthError';
 import LineChart from '@/components/board/LineChart';
 import BoardTable from '@/components/board/BoardTable';

@@ -1,6 +1,6 @@
 'use server';
 import { neon } from '@neondatabase/serverless';
-import { TQuiz, TQuiz_data } from './definitions';
+import { TQuiz } from './definitions';
 
 export async function fetchQuizzes(): Promise<TQuiz[]> {
   try {
