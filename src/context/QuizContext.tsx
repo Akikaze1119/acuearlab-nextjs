@@ -11,6 +11,7 @@ interface QuizContextProps {
   results: TResult[];
   setQuizzes: (quizzes: TQuiz[]) => void;
   setResults: (results: TResult[]) => void;
+  setCurrentQuizIndex: (index: number) => void;
   incrementQuizIndex: () => void;
   restartQuiz: () => Promise<void>;
 }
@@ -43,6 +44,7 @@ export const QuizProvider = ({ children }: { children: ReactNode }) => {
         results,
         setQuizzes,
         setResults,
+        setCurrentQuizIndex,
         incrementQuizIndex,
         restartQuiz,
       }}

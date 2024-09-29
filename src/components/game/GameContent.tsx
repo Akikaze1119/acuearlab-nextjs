@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button, Progress, Spin } from 'antd';
 import { PlayCircleFilled } from '@ant-design/icons';
@@ -9,60 +9,72 @@ import { speakText } from '@/lib/speakText';
 import { cn } from '@/lib/utils';
 import WordButtons from '@/components/game/WordButtons';
 import { createRecord } from '@/actions/quizResult';
+
 interface GameContentProps {
   quizzes: TQuiz[];
 }
 
 const GameContent = ({ quizzes }: GameContentProps) => {
   const router = useRouter();
+  const [message, setMessage] = useState<string>('');
+  const [isAnswered, setIsAnswered] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  const { currentQuizIndex, results, setQuizzes, setResults, incrementQuizIndex } =
-    useQuizContext();
+  const {
+    currentQuizIndex,
+    results,
+    setQuizzes,
+    setResults,
+    setCurrentQuizIndex,
+    incrementQuizIndex,
+  } = useQuizContext();
 
   useEffect(() => {
     setQuizzes(quizzes);
+    setResults([]);
+    setCurrentQuizIndex(0);
+    setIsLoading(false);
   }, [quizzes, setQuizzes]);
 
-  const [answer, setAnswer] = useState<string>(getRandomWord(quizzes[0]));
-  const [message, setMessage] = useState<string>('');
-  const [isAnswered, setIsAnswered] = useState(false);
   const questionCount = quizzes.length;
-  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   // choose a correct answer randomly
-  function getRandomWord(quiz: TQuiz): string {
+  const getRandomWord = useCallback((quiz: TQuiz): string => {
     const randomIndex = Math.floor(Math.random() * 2);
     return randomIndex === 0 ? quiz.word1 : quiz.word2;
-  }
+  }, []);
 
-  function handleSelectAnswer(option: string): void {
-    setIsAnswered(() => true);
-    const isCorrect = option === answer;
-    const result = {
-      quiz_id: quizzes[currentQuizIndex].quiz_id,
-      answer: option,
-      isCorrect,
-    };
+  const answer = useMemo(
+    () => getRandomWord(quizzes[currentQuizIndex]),
+    [quizzes, currentQuizIndex, getRandomWord]
+  );
 
-    if (isCorrect) {
-      setMessage('Correct!');
-    } else {
-      setMessage('Incorrect!');
-    }
+  const handleSelectAnswer = useCallback(
+    (option: string): void => {
+      setIsAnswered(true);
+      const isCorrect = option === answer;
+      const result = {
+        quiz_id: quizzes[currentQuizIndex].quiz_id,
+        answer: option,
+        isCorrect,
+      };
 
-    setResults([...results, result]);
-  }
+      setMessage(isCorrect ? 'Correct!' : 'Incorrect!');
+      setResults([...results, result]);
+    },
+    [answer, quizzes, currentQuizIndex, results, setResults]
+  );
 
-  function next() {
+  const next = useCallback(() => {
     incrementQuizIndex();
-    setAnswer(getRandomWord(quizzes[currentQuizIndex + 1]));
     setMessage('');
     setIsAnswered(false);
-  }
+  }, [incrementQuizIndex]);
 
-  async function handleViewResult() {
+  const handleViewResult = useCallback(async () => {
     setIsLoading(true);
     if (!results) return;
+
     const quiz_data = quizzes.map((quiz) => {
       const result = results.find((r) => r.quiz_id === quiz.quiz_id);
       return {
@@ -79,16 +91,20 @@ const GameContent = ({ quizzes }: GameContentProps) => {
     } finally {
       router.push('/result');
     }
-  }
+  }, [quizzes, results, router]);
 
   return (
     <div className='w-full md:w-2/3 px-10 mt-10 flex flex-col items-center md:mx-auto'>
       <Spin spinning={isLoading} fullscreen />
-      <Progress
-        percent={Number(`${(100 / 5) * currentQuizIndex}`)}
-        showInfo={false}
-        style={{ marginBottom: '3rem' }}
-      />
+      {currentQuizIndex === questionCount - 1 && isAnswered ? (
+        <Progress percent={100} showInfo={false} style={{ marginBottom: '3rem' }} />
+      ) : (
+        <Progress
+          percent={Number(`${(100 / 5) * currentQuizIndex}`)}
+          showInfo={false}
+          style={{ marginBottom: '3rem' }}
+        />
+      )}
       <Button
         size={'large'}
         type={'primary'}
@@ -111,29 +127,27 @@ const GameContent = ({ quizzes }: GameContentProps) => {
             onSelectAnswer={handleSelectAnswer}
           />
           {isAnswered && (
-            <>
-              <div
-                className={cn(
-                  'text-2xl text-center mt-12 w-full py-4 rounded-md',
-                  message === 'Correct!' ? 'text-lime-800 bg-lime-200' : 'text-rose-800 bg-rose-200'
-                )}
+            <div
+              className={cn(
+                'text-2xl text-center mt-12 w-full py-4 rounded-md',
+                message === 'Correct!' ? 'text-lime-800 bg-lime-200' : 'text-rose-800 bg-rose-200'
+              )}
+            >
+              <p className='mb-4'>{message}</p>
+              <Button
+                style={{
+                  paddingLeft: '3rem',
+                  paddingRight: '3rem',
+                  paddingTop: '1.5rem',
+                  paddingBottom: '1.5rem',
+                  fontSize: '1.25rem',
+                }}
+                type='primary'
+                onClick={next}
               >
-                <p className='mb-4'>{message}</p>
-                <Button
-                  style={{
-                    paddingLeft: '3rem',
-                    paddingRight: '3rem',
-                    paddingTop: '1.5rem',
-                    paddingBottom: '1.5rem',
-                    fontSize: '1.25rem',
-                  }}
-                  type='primary'
-                  onClick={() => next()}
-                >
-                  Next
-                </Button>
-              </div>
-            </>
+                Next
+              </Button>
+            </div>
           )}
         </>
       )}
@@ -144,7 +158,6 @@ const GameContent = ({ quizzes }: GameContentProps) => {
             isAnswered={isAnswered}
             onSelectAnswer={handleSelectAnswer}
           />
-
           {isAnswered && (
             <div
               className={cn(
