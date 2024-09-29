@@ -1,36 +1,63 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# AcuEarLab
+
+AcuEarLab is a pronunciation quiz app designed to help users distinguish between similar sounds accurately. Practice and improve your listening skills in a fun and interactive way!
+
+## Features
+
+- **Sound Differentiation Quizzes**: Test your ability to distinguish between similar sounds.
+- **Interactive Charts**: Track your progress over time with visualized performance.
+- **User Authentication**: Sign up and save your progress with secure user authentication.
+
+## Tech Stack
+
+- **Language**: TypeScript 5
+- **Frameworks**: Next.js 14 (with App Router)
+- **Styling**: Tailwind CSS
+- **Components**: Ant Design, Aceternity UI
+- **Charting Library**: Chart.js
+- **Authentication**: Clerk
+- **Database**: Neon
+- **Deployment**: Vercel
 
 ## Getting Started
 
-First, run the development server:
+To run AcuEarLab locally, you'll need to have Node.js installed.
+
+### Installation
+
+Clone the repository:
+
+```bash
+git clone https://github.com/yourusername/AcuEarLab.git
+```
+
+Navigate to the project directory:
+
+```bash
+cd AcuEarLab
+```
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open your browser and go to http://localhost:3000.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## How to Use
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Sign up or log in using the authentication feature provided by Clerk.
+2. Start a quiz and listen carefully to the sounds.
+3. Select the correct option to distinguish between the similar sounds.
+4. Track your progress and improve over time using the interactive charts.
 
-## Learn More
+## License
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This project is licensed under the MIT License.
