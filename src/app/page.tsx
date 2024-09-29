@@ -23,9 +23,15 @@ export default function Home() {
           </p>
 
           <SignedOut>
-            <Button type='primary' size='large' style={{ fontSize: '1.25rem', padding: '1.5rem' }}>
-              <SignInButton />
-            </Button>
+            <SignInButton>
+              <Button
+                type='primary'
+                size='large'
+                style={{ fontSize: '1.25rem', padding: '1.5rem' }}
+              >
+                Sign in
+              </Button>
+            </SignInButton>
           </SignedOut>
           <SignedIn>
             <Flex gap='middle' justify='center'>
