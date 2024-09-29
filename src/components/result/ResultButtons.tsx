@@ -1,5 +1,6 @@
 import { Button } from 'antd';
-import { HistoryOutlined, PlayCircleOutlined } from '@ant-design/icons';
+import { HistoryOutlined, HomeOutlined, PlayCircleOutlined } from '@ant-design/icons';
+import { SignedIn, SignedOut } from '@clerk/nextjs';
 
 const ResultButtons = () => {
   return (
@@ -8,10 +9,18 @@ const ResultButtons = () => {
         New Game
         <PlayCircleOutlined />
       </Button>
-      <Button href='/board' size={'large'} style={{ fontSize: '1.1rem' }}>
-        Record
-        <HistoryOutlined />
-      </Button>
+      <SignedIn>
+        <Button href='/board' size={'large'} style={{ fontSize: '1.1rem' }}>
+          Record
+          <HistoryOutlined />
+        </Button>
+      </SignedIn>
+      <SignedOut>
+        <Button href='/' size={'large'} style={{ fontSize: '1.1rem' }}>
+          Home
+          <HomeOutlined />
+        </Button>
+      </SignedOut>
     </div>
   );
 };
