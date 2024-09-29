@@ -1,8 +1,7 @@
 'use server';
 import { neon } from '@neondatabase/serverless';
 import { TBoardData, TQuiz_data, TWeakDataWithWords } from '@/lib/definitions';
-import { fetchQuizzesById } from '@/lib/quizData';
-import { formatDate } from './dateFormat';
+import { fetchQuizzesById } from '@/lib/getQuizData';
 
 export async function fetchRecords(userId: string): Promise<TBoardData[]> {
   try {
@@ -17,7 +16,7 @@ export async function fetchRecords(userId: string): Promise<TBoardData[]> {
     ORDER BY created_at DESC;
   `;
     if (data.length === 0) {
-      throw new Error('No quizzes found.');
+      return [];
     }
 
     const quizzes = data.map(async (quiz, quizIndex) => {
@@ -37,7 +36,7 @@ export async function fetchRecords(userId: string): Promise<TBoardData[]> {
 
       return {
         id: quizIndex + 1,
-        created_at: formatDate(new Date(quiz.created_at).toISOString()),
+        created_at: quiz.created_at,
         result: boardData,
       };
     });
