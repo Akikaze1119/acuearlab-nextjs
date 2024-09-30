@@ -18,7 +18,7 @@ export default function Home() {
             <span>aw?</span>
           </div>
           <p className='text-lg md:text-xl mb-10'>
-            Let's test distinguish sounds between similar sounds accurately!
+            Let&apos;s test distinguish sounds between similar sounds accurately!
           </p>
           <ContentButtons />
         </div>

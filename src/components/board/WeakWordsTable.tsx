@@ -61,13 +61,13 @@ const WeakWordsTable = ({ weakRecords }: WeakWordsTableProps) => {
         title='Word1'
         dataIndex='word1'
         key='word1'
-        render={(_: any, record: TWeakTableData) => <WordColumnRender word={record.word1} />}
+        render={(_, record: TWeakTableData) => <WordColumnRender word={record.word1} />}
       />
       <Column
         title='Word2'
         dataIndex='word2'
         key='word2'
-        render={(_: any, record: TWeakTableData) => <WordColumnRender word={record.word2} />}
+        render={(_, record: TWeakTableData) => <WordColumnRender word={record.word2} />}
       />
     </Table>
   );

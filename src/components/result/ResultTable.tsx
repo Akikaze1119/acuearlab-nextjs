@@ -35,7 +35,7 @@ const ResultTable = () => {
         key='result'
         align='center'
         width='10%'
-        render={(_: any, record: TResultTableData) => {
+        render={(_, record: TResultTableData) => {
           return record.isCorrect ? (
             <CheckOutlined style={{ fontSize: '1.5rem', color: '#52c41a' }} />
           ) : (
@@ -48,13 +48,13 @@ const ResultTable = () => {
         title='Word1'
         dataIndex='word1'
         key='word1'
-        render={(_: any, record: TResultTableData) => <WordColumnRender word={record.word1} />}
+        render={(_, record: TResultTableData) => <WordColumnRender word={record.word1} />}
       />
       <Column
         title='Word2'
         dataIndex='word2'
         key='word2'
-        render={(_: any, record: TResultTableData) => <WordColumnRender word={record.word2} />}
+        render={(_, record: TResultTableData) => <WordColumnRender word={record.word2} />}
       />
     </Table>
   );

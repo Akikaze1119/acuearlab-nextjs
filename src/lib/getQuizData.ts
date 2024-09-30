@@ -14,7 +14,7 @@ export async function fetchQuizzes(): Promise<TQuiz[]> {
     ORDER BY RANDOM()
     LIMIT 5;
   `;
-    return data.map((row: any) => ({
+    return data.map((row) => ({
       quiz_id: row.quiz_id,
       word1: row.word1,
       word2: row.word2,
