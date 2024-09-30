@@ -45,7 +45,7 @@ const BoardTable = ({ records }: BoardTableProps) => {
       title: 'Word1',
       dataIndex: 'word1',
       key: 'word1',
-      render: (_: any, record: ExpandedDataType) => (
+      render: (_, record: ExpandedDataType) => (
         <Flex
           style={{ paddingLeft: '1.5rem', paddingRight: '1.5rem' }}
           justify={'space-between'}
@@ -63,7 +63,7 @@ const BoardTable = ({ records }: BoardTableProps) => {
       title: 'Word2',
       dataIndex: 'word2',
       key: 'word2',
-      render: (_: any, record: ExpandedDataType) => (
+      render: (_, record: ExpandedDataType) => (
         <Flex
           style={{ paddingLeft: '1.5rem', paddingRight: '1.5rem' }}
           justify={'space-between'}
@@ -82,7 +82,7 @@ const BoardTable = ({ records }: BoardTableProps) => {
       dataIndex: 'isCorrect',
       key: 'result',
       align: 'center',
-      render: (_: any, record: ExpandedDataType) => {
+      render: (_, record: ExpandedDataType) => {
         return record.isCorrect ? (
           <CheckOutlined style={{ color: '#52c41a' }} />
         ) : (

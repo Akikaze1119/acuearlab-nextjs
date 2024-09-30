@@ -26,7 +26,7 @@ const IndexPageModal = ({ open, setOpen }: ModalProps) => {
     <>
       <Spin spinning={loading} fullscreen />
       <Modal title='Caution!' open={open} onOk={handleOk} onCancel={handleCancel}>
-        <p>You won't be able to save your game results without signing in.</p>
+        <p>You won&apos;t be able to save your game results without signing in.</p>
         <p>Are you sure you want to continue?</p>
       </Modal>
     </>
