@@ -3,6 +3,7 @@ import { TBoardData } from '@/lib/definitions';
 import { speakText } from '@/lib/speakText';
 import { CheckOutlined, CloseOutlined, PlayCircleFilled } from '@ant-design/icons';
 import { Flex, Table, TableColumnsType } from 'antd';
+import { convertUTCToLocal } from '@/lib/convertUTCToLocal';
 
 interface BoardTableProps {
   records: TBoardData[];
@@ -26,7 +27,7 @@ const BoardTable = ({ records }: BoardTableProps) => {
     key: index + 1,
     name: `Record${record.id}`,
     score: record.result.filter((item) => item.isCorrect === true).length,
-    created_at: record.created_at,
+    created_at: convertUTCToLocal(record.created_at),
   }));
 
   const expandDataSources: Record<number, ExpandedDataType[]> = {};
